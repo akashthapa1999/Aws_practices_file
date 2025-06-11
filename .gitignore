@@ -1,0 +1,53 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# VSCode / IDE settings
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test / coverage
+htmlcov/
+.coverage
+.tox/
+.pytest_cache/
+.cache/
+*.sqlite3
+
+# MySQL / PostgreSQL dumps
+*.sql
+*.dump
+
+# Environment variables & secrets
+.env
+*.env
+
+# Jupyter / notebooks (if any)
+*.ipynb_checkpoints/
+
+# pytest test cache
+.pytest_cache/
+
+# Pydantic generated cache
+*.mypy_cache/
+.mypy_cache/
+
+# Optional: ignore node_modules if using frontend
+node_modules/
