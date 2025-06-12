@@ -1,0 +1,100 @@
+pipeline {
+    agent any
+
+    // environment {
+    //     BASE_IMAGE_NAME = 'AWS_Practice_Code'
+    //     UNIQUE_TAG = "${BUILD_NUMBER}-${GIT_COMMIT.take(7)}"
+    //     DOCKER_IMAGE = "${BASE_IMAGE_NAME}-${UNIQUE_TAG}"
+    //     AWS_CREDENTIALS = credentials('aws-credentials')
+    // }
+  
+
+    stages {
+        stage('Show Env') {
+            steps {
+                echo "Value of MY_VAR: ${env.MY_VAR}"
+                echo "Job Name: ${env.JOB_NAME}"
+                echo "Build Number: ${env.BUILD_NUMBER}"
+            }
+        }
+
+        stage('Print Env Vars') {
+            steps {
+                sh 'printenv'
+                sh 'echo "BUILD_NUMBER is $BUILD_NUMBER"'
+                sh 'echo "JOB_NAME is $JOB_NAME"'
+            }
+        }
+        stages {
+        stage('Print Message') {
+            steps {
+                sh 'echo "Checkout the code..."'
+            }
+        }
+    }
+
+        stage('Checkout Code ') {
+            steps {
+                git "https://github.com/akashthapa1999/Aws_practices_file.git"
+            }
+        }
+        stages {
+        stage('Print Message') {
+            steps {
+                sh 'echo "Building the application..."'
+            }
+        }
+    }
+
+
+    //     stage('Build') {
+    //         steps {
+    //             sh 'docker build -t ${DOCKER_IMAGE} .'
+    //         }
+    //     }
+
+    //     stage('Test') {
+    //         steps {
+    //             sh 'docker run --rm ${DOCKER_IMAGE} pytest'
+    //         }
+    //     }
+
+    //     stage('Push to Docker Hub') {
+    //         steps {
+    //             withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+    //                 sh '''
+    //                     echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
+    //                     docker tag ${DOCKER_IMAGE} ${DOCKER_USERNAME}/${DOCKER_IMAGE}
+    //                     docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE}
+    //                 '''
+    //             }
+    //         }
+    //     }
+
+    //     stage('Deploy to AWS') {
+    //         steps {
+    //             withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
+    //                 dir('terraform') {
+    //                     sh '''
+    //                         terraform init
+    //                         terraform apply -auto-approve
+    //                     '''
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+    // post {
+    //     always {
+    //         sh 'docker system prune -f'
+    //         cleanWs()
+    //     }
+    //     success {
+    //         echo 'Pipeline completed successfully!'
+    //     }
+    //     failure {
+    //         echo 'Pipeline failed!'
+    //     }
+    }
+}
