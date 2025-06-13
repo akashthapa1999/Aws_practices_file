@@ -1,13 +1,11 @@
 pipeline {
     agent any
-
     // environment {
     //     BASE_IMAGE_NAME = 'AWS_Practice_Code'
     //     UNIQUE_TAG = "${BUILD_NUMBER}-${GIT_COMMIT.take(7)}"
     //     DOCKER_IMAGE = "${BASE_IMAGE_NAME}-${UNIQUE_TAG}"
     //     AWS_CREDENTIALS = credentials('aws-credentials')
     // }
-  
 
     stages {
         stage('Show Env') {
@@ -25,7 +23,7 @@ pipeline {
                 sh 'echo "JOB_NAME is $JOB_NAME"'
             }
         }
-        stage('Print Message') {
+        stage('CHeckout Working......') {
             steps {
                 sh 'echo "Checkout the code..."'
             }
@@ -35,8 +33,7 @@ pipeline {
                 git "https://github.com/akashthapa1999/Aws_practices_file.git"
             }
         }
-        stages {
-        stage('Print Message') {
+        stage('Building .....') {
             steps {
                 sh 'echo "Building the application..."'
             }
