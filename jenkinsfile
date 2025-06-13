@@ -25,14 +25,11 @@ pipeline {
                 sh 'echo "JOB_NAME is $JOB_NAME"'
             }
         }
-        stages {
         stage('Print Message') {
             steps {
                 sh 'echo "Checkout the code..."'
             }
         }
-    }
-
         stage('Checkout Code ') {
             steps {
                 git "https://github.com/akashthapa1999/Aws_practices_file.git"
