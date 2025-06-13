@@ -28,7 +28,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 sh 'echo "Checking out the code..."'
-                git "https://github.com/akashthapa1999/Aws_practices_file.git"
+                git branch: 'main', url: 'https://github.com/akashthapa1999/Aws_practices_file.git'
             }
         }
 
