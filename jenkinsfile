@@ -1,54 +1,64 @@
 pipeline {
     agent any
 
-    // environment {
-    //     BASE_IMAGE_NAME = 'AWS_Practice_Code'
-    //     UNIQUE_TAG = "${BUILD_NUMBER}-${GIT_COMMIT.take(7)}"
-    //     DOCKER_IMAGE = "${BASE_IMAGE_NAME}-${UNIQUE_TAG}"
-    //     AWS_CREDENTIALS = credentials('aws-credentials')
-    // }
+    environment {
+        BASE_IMAGE_NAME = 'aws_practice_code'
+        UNIQUE_TAG = "${BUILD_NUMBER}"
+        DOCKER_IMAGE = "${BASE_IMAGE_NAME}:${UNIQUE_TAG}"
+        // AWS_CREDENTIALS = credentials('aws-credentials') // can be used in deploy if needed
+    }
 
     stages {
         stage('Show Env') {
             steps {
-                echo "Value of MY_VAR: ${env.MY_VAR}"
                 echo "Job Name: ${env.JOB_NAME}"
                 echo "Build Number: ${env.BUILD_NUMBER}"
             }
         }
 
-        stage('Print Env Vars') {
-            steps {
-                sh 'printenv'
-                sh 'echo "BUILD_NUMBER is $BUILD_NUMBER"'
-                sh 'echo "JOB_NAME is $JOB_NAME"'
-            }
-        }
-
         stage('Checkout Code') {
             steps {
-                sh 'echo "Checking out the code..."'
+                echo "Checking out the code..."
                 git branch: 'main', url: 'https://github.com/akashthapa1999/Aws_practices_file.git'
             }
         }
 
-        stage('Building') {
+        stage('Build Docker Image') {
             steps {
-                sh 'echo "Building the application..."'
+                sh '''
+                    echo "Building Docker image..."
+                    docker build -t ${DOCKER_IMAGE} .
+                '''
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                sh '''
+                    echo "Running Docker container..."
+                    docker run -d --name aws_practice_container -p 8000:8000 ${DOCKER_IMAGE}
+                '''
             }
         }
     }
 
-    // post {
-    //     always {
-    //         sh 'docker system prune -f'
-    //         cleanWs()
-    //     }
-    //     success {
-    //         echo 'Pipeline completed successfully!'
-    //     }
-    //     failure {
-    //         echo 'Pipeline failed!'
-    //     }
-    // }
+    post {
+        always {
+            echo 'Cleaning up Docker...'
+            sh '''
+                docker ps -a
+                docker stop aws_practice_container || true
+                docker rm aws_practice_container || true
+                docker rmi ${DOCKER_IMAGE} || true
+                docker system prune -f || true
+            '''
+            cleanWs()
+        }
+        success {
+            echo '✅ Pipeline completed successfully!'
+        }
+        failure {
+            echo '❌ Pipeline failed!'
+        }
+    }
 }
