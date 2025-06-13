@@ -20,6 +20,7 @@ pipeline {
             steps {
                 echo "Checking out the code..."
                 git branch: 'main', url: 'https://github.com/akashthapa1999/Aws_practices_file.git'
+                echo "git cloning succesfull"
             }
         }
 
