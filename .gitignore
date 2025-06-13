@@ -51,3 +51,5 @@ htmlcov/
 
 # Optional: ignore node_modules if using frontend
 node_modules/
+
+zzztoken
